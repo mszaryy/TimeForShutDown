@@ -33,8 +33,23 @@ namespace TimeForShutDown
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            myTimer.Start();
+            Button Name = (sender as Button);
+            if(Name.Content.ToString() == "Start")
+            {
+                myTimer.Start();
+                Name.Content = "Stop";
+            }
+            else
+            {
+                myTimer.Stop();
+                Name.Content = "Start";
+            }
+            
+
+            
         }
+
+
     }
 
 }

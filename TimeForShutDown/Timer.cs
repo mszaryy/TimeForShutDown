@@ -7,26 +7,26 @@ namespace TimeForShutDown
 {
     public class Timer : INotifyPropertyChanged
     {
-        private string currentTime;
-        public string CurrentTime
+        private TimeSpan startTime;
+
+        public TimeSpan StartTime
         {
-            get { return this.currentTime; }
+            get { return this.startTime; }
             set
             {
-                if (value != this.currentTime)
+                if (value != this.startTime)
                 {
-                    this.currentTime = value;
-                    NotifyPropertyChange("CurrentTime");
+                    this.startTime = value;
+                    NotifyPropertyChange("StartTime");
                 }
             }
         }
-        private TimeSpan startTime;
+
         private DispatcherTimer timer;
 
         public Timer()
         {
-            startTime = new TimeSpan(0, 0, 0);
-            this.currentTime = String.Format("{0:hh\\:mm\\:ss}", startTime);
+            StartTime = new TimeSpan(0, 15, 0);
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += tickTimer;
@@ -39,11 +39,18 @@ namespace TimeForShutDown
 
         private void tickTimer(object sender, EventArgs e)
         {
-
-            startTime = startTime + new TimeSpan(0, 0, 1);
-            CurrentTime = String.Format("{0:hh\\:mm\\:ss}", startTime);
+            StartTime = StartTime - new TimeSpan(0, 0, 1);
+            if (startTime == new TimeSpan(0, 0, 0))
+            {
+                MessageBox.Show("ShutDown");
+                timer.Stop();
+            }
         }
 
+        public void Stop()
+        {
+            timer.Stop();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChange(string propName)
