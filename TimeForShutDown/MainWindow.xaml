@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="TimeForShutDown" Height="418.04" Width="549.432">
     <Grid>
-        <TextBox x:Name="tbTimer" HorizontalAlignment="Left" FontSize="35" Height="53" Margin="124,37,0,0" TextWrapping="Wrap" Text="{Binding StartTime,StringFormat='{}{0:hh\\:mm\\:ss}',Mode=TwoWay,UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="274" />
-        <Button Content="Start" HorizontalAlignment="Left" Margin="168,147,0,0" VerticalAlignment="Top" Width="169" Click="Button_Click" Height="21"/>
+        <TextBox x:Name="tbTimer" HorizontalAlignment="Left" FontSize="35" Height="43" Margin="161,53,0,0" TextWrapping="Wrap" Focusable="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" Text="{Binding StartTime,StringFormat='{}{0:hh\\:mm\\:ss}',Mode=TwoWay,UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="190" />
+        <Button Content="Start" HorizontalAlignment="Left" Margin="171,313,0,0" VerticalAlignment="Top" Width="169" Click="Button_Click" Height="21"/>
+        <ComboBox x:Name="processComboBox" SelectedIndex="0" Focusable="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding ProcessName,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsChecked,ElementName=processEndCheckBox}" HorizontalAlignment="Left" Margin="141,165,0,0" VerticalAlignment="Top" Width="322"/>
+        <CheckBox x:Name="processEndCheckBox" IsEnabled="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" Content="Wait for process end" IsChecked="{Binding ProcessEnd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="141,145,0,0" />
 
     </Grid>
 </Window>

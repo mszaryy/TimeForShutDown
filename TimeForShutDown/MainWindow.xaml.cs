@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace TimeForShutDown
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private Timer myTimer;
@@ -25,10 +22,9 @@ namespace TimeForShutDown
         public MainWindow()
         {
             InitializeComponent();
+            processComboBox.ItemsSource = Utilities.GetProcessList();
             myTimer = new Timer();
             this.DataContext = myTimer;
-           
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -43,13 +39,10 @@ namespace TimeForShutDown
             {
                 myTimer.Stop();
                 Name.Content = "Start";
-            }
-            
-
-            
+            }           
         }
 
-
+      
     }
 
 }
