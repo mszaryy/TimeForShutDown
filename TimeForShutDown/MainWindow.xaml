@@ -5,12 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeForShutDown"
         mc:Ignorable="d"
-        Title="TimeForShutDown" Height="418.04" Width="549.432" Icon="Ico\shutdownIco.ico">
-    <Grid>
-        <TextBox x:Name="tbTimer" HorizontalAlignment="Left" FontSize="35" Height="43" Margin="161,53,0,0" TextWrapping="Wrap" Focusable="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" Text="{Binding StartTime,StringFormat='{}{0:hh\\:mm\\:ss}',Mode=TwoWay,UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="190" />
-        <Button Content="Start" HorizontalAlignment="Left" Margin="171,313,0,0" VerticalAlignment="Top" Width="169" Click="Button_Click" Height="21"/>
-        <ComboBox x:Name="processComboBox" SelectedIndex="0" Focusable="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding ProcessName,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsChecked,ElementName=processEndCheckBox}" HorizontalAlignment="Left" Margin="141,165,0,0" VerticalAlignment="Top" Width="322"/>
-        <CheckBox x:Name="processEndCheckBox" IsEnabled="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" Content="Wait for process end" IsChecked="{Binding ProcessEnd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="141,145,0,0" Width="322" />
+        Title="TimeForShutDown" Height="353.908" Width="395.042" Icon="Ico\shutdownIco.ico">
+    <Grid Margin="0,0,2,4">
+        <TextBox x:Name="tbTimerHH" HorizontalAlignment="Left" FontSize="35" Height="52" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="102,24,0,0" TextWrapping="Wrap" Focusable="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" Text="{Binding StartTime,StringFormat='{}{0:hh\\:mm\\:ss}',Mode=TwoWay,UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="169" />
+
+        <Button Content="Start" HorizontalAlignment="Left" Margin="101,173,0,0" VerticalAlignment="Top" Width="169" Click="Button_Click" Height="21"/>
+        <ComboBox x:Name="processComboBox" SelectedIndex="0" Focusable="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding ProcessName,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsChecked,ElementName=processEndCheckBox}" HorizontalAlignment="Left" Margin="162,130,0,0" VerticalAlignment="Top" Width="202"/>
+        <RadioButton GroupName="radio" x:Name="processEndCheckBox"  IsChecked="{Binding ProcessEnd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" Content="Wait for process end" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,130,0,0" Width="136" />
+        <RadioButton GroupName="radio" x:Name="checkBox" Content="Turn off at time" IsChecked="{Binding TurnOfAtTime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,110,0,0" Width="124"/>
+        <RadioButton GroupName="radio" x:Name="checkBox_Copy" Content="Countdown" IsChecked="{Binding CountDown,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Focusable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,90,0,0" Width="124"/>
+
 
     </Grid>
 </Window>

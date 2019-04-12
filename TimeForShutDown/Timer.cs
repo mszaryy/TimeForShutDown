@@ -21,6 +21,42 @@ namespace TimeForShutDown
             }
         }
 
+        private bool turnOfAtTime;
+        public bool TurnOfAtTime
+        {
+            get { return this.turnOfAtTime; }
+            set
+            {
+                if (value != this.turnOfAtTime)
+                {
+                    this.turnOfAtTime = value;
+                    if(value)
+                    {
+                        StartTime = DateTime.Now.TimeOfDay;
+                    }                   
+                    NotifyPropertyChange("TurnOfAtTime");
+                }
+            }
+        }
+
+        private bool countDown;
+        public bool CountDown
+        {
+            get { return this.countDown; }
+            set
+            {
+                if (value != this.countDown)
+                {
+                    this.countDown = value;
+                    if (value)
+                    {
+                        StartTime = new TimeSpan(0, 15, 0);
+                    }
+                    NotifyPropertyChange("CountDown");
+                }
+            }
+        }
+
         private bool processEnd;
         public bool ProcessEnd
         {
@@ -61,12 +97,14 @@ namespace TimeForShutDown
             }
         }
 
+        private TimeSpan endTime;
         private DispatcherTimer timer;
         private Utilities utilities;
 
         public Timer()
         {
             StartTime = new TimeSpan(0, 15, 0);
+            CountDown = true;
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += tickTimer;
@@ -76,6 +114,16 @@ namespace TimeForShutDown
         public void Start()
         {
             Focusable = false;
+            endTime = DateTime.Now.TimeOfDay;
+            if ((startTime.CompareTo(endTime) < 0) && turnOfAtTime == true )
+            {
+                double seconds = endTime.TotalSeconds - (new TimeSpan(24,0,0)).TotalSeconds + startTime.TotalSeconds;
+                StartTime = new TimeSpan(0,0, Convert.ToInt32(seconds));
+            }else if(turnOfAtTime == true)
+            {
+                StartTime = startTime.Subtract(endTime);
+            }
+
             timer.Start();
             if (processEnd)
             {
@@ -106,10 +154,9 @@ namespace TimeForShutDown
             {
                 utilities.CancleBGW();
             }
-            else
-            {
                 timer.Stop();
-            }
+            CountDown = true;
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
