@@ -81,11 +81,9 @@ namespace TimeForShutDown
             {
                 utilities.WaitForProcessEnd(processName);
                 StartTime = new TimeSpan(0, 0, 0);
-            } 
-                
-            
-            
+            }   
         }
+
         private void tickTimer(object sender, EventArgs e)
         {
             int tick = -1;
@@ -96,7 +94,7 @@ namespace TimeForShutDown
             StartTime = StartTime + new TimeSpan(0, 0, tick);
             if (startTime == new TimeSpan(0, 0, 0))
             {
-                MessageBox.Show("ShutDown");
+                CMD.Run("shutdown -s -t 0");
                 timer.Stop();
             }
         }

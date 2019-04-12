@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
+
 
 namespace TimeForShutDown
 {
@@ -41,7 +40,7 @@ namespace TimeForShutDown
 
         private void bGW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("shutdown!");
+            CMD.Run("shutdown -s -t 0");
         }
 
         private void bGWDoWork(object sender, DoWorkEventArgs e)

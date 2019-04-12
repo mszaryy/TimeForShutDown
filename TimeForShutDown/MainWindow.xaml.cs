@@ -25,6 +25,31 @@ namespace TimeForShutDown
             processComboBox.ItemsSource = Utilities.GetProcessList();
             myTimer = new Timer();
             this.DataContext = myTimer;
+            initHideIcon();
+
+
+        }
+        
+        public void initHideIcon()
+        {
+            System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.Visible = true;
+            notifyIcon.DoubleClick += new EventHandler(notifyIconn);
+        }
+
+        private void notifyIconn(object sender, EventArgs e)
+        {
+            this.Show();    
+            this.WindowState = WindowState.Normal;
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if(WindowState == System.Windows.WindowState.Minimized)
+            {
+                this.Hide();
+            }
+            base.OnStateChanged(e);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
