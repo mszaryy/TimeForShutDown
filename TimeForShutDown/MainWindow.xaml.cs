@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,57 +19,35 @@ namespace TimeForShutDown
 {
     public partial class MainWindow : Window
     {
-        private Timer myTimer;
-
         public MainWindow()
         {
             InitializeComponent();
             processComboBox.ItemsSource = Utilities.GetProcessList();
-            myTimer = new Timer();
-            this.DataContext = myTimer;
-            initHideIcon();
-
-
+            InitHideIcon();
         }
-        
-        public void initHideIcon()
+
+        public void InitHideIcon()
         {
             System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.Icon = new System.Drawing.Icon(Directory.GetCurrentDirectory() + @"\shutdownIco.ico");
             notifyIcon.Visible = true;
-            notifyIcon.DoubleClick += new EventHandler(notifyIconn);
+            notifyIcon.DoubleClick += new EventHandler(NotifyIconn);
         }
 
-        private void notifyIconn(object sender, EventArgs e)
+        private void NotifyIconn(object sender, EventArgs e)
         {
-            this.Show();    
+            this.Show();
             this.WindowState = WindowState.Normal;
         }
 
         protected override void OnStateChanged(EventArgs e)
         {
-            if(WindowState == System.Windows.WindowState.Minimized)
+            if (WindowState == System.Windows.WindowState.Minimized)
             {
                 this.Hide();
             }
             base.OnStateChanged(e);
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Button Name = (sender as Button);
-            if(Name.Content.ToString() == "Start")
-            {
-                myTimer.Start();
-                Name.Content = "Stop";
-            }
-            else
-            {
-                myTimer.Stop();
-                Name.Content = "Start";
-            }           
-        }
-
-      
     }
 
 }

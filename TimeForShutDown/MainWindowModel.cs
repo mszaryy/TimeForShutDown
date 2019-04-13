@@ -1,12 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace TimeForShutDown
 {
-    public class Timer : INotifyPropertyChanged
+    class MainWindowModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChange(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         private bool focusable;
         public bool Focusable
         {
@@ -30,10 +45,10 @@ namespace TimeForShutDown
                 if (value != this.turnOfAtTime)
                 {
                     this.turnOfAtTime = value;
-                    if(value)
+                    if (value)
                     {
                         StartTime = DateTime.Now.TimeOfDay;
-                    }                   
+                    }
                     NotifyPropertyChange("TurnOfAtTime");
                 }
             }
@@ -97,77 +112,90 @@ namespace TimeForShutDown
             }
         }
 
-        private TimeSpan endTime;
-        private DispatcherTimer timer;
+
+        private string startButtonText = "Start";
+        public string StartButtonText
+        {
+            get { return this.startButtonText; }
+            set
+            {
+                if (value != this.startButtonText)
+                {
+                    this.startButtonText = value;
+                    NotifyPropertyChange("StartButtonText");
+                }
+            }
+        }
+
+        public ICommand ButtonCommand { get; private set; }
+        private DispatcherTimer dispatcherTimer;
         private Utilities utilities;
 
-        public Timer()
+        public MainWindowModel()
         {
-            StartTime = new TimeSpan(0, 15, 0);
-            CountDown = true;
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += tickTimer;
+            Timer();
+            ButtonCommand = new RelayCommand(x => { this.Button_Click(); }, x => true);
             utilities = new Utilities();
-            Focusable = true;
         }
-        public void Start()
+
+        public void Timer()
         {
-            Focusable = false;
-            endTime = DateTime.Now.TimeOfDay;
-            if ((startTime.CompareTo(endTime) < 0) && turnOfAtTime == true )
-            {
-                double seconds = endTime.TotalSeconds - (new TimeSpan(24,0,0)).TotalSeconds + startTime.TotalSeconds;
-                StartTime = new TimeSpan(0,0, Convert.ToInt32(seconds));
-            }else if(turnOfAtTime == true)
-            {
-                StartTime = startTime.Subtract(endTime);
-            }
+            focusable = true;
+            CountDown = true;
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            dispatcherTimer.Tick += Tick;
+          }
 
-            timer.Start();
-            if (processEnd)
-            {
-                utilities.WaitForProcessEnd(processName);
-                StartTime = new TimeSpan(0, 0, 0);
-            }   
-        }
-
-        private void tickTimer(object sender, EventArgs e)
+        private void Tick(object sender, EventArgs e)
         {
             int tick = -1;
-            if(processEnd)
+            if (ProcessEnd)
             {
                 tick = 1;
             }
             StartTime = StartTime + new TimeSpan(0, 0, tick);
-            if (startTime == new TimeSpan(0, 0, 0))
+            if (StartTime == new TimeSpan(0, 0, 0))
             {
                 CMD.Run("shutdown -s -t 0");
-                timer.Stop();
+                dispatcherTimer.Stop();
             }
         }
 
-        public void Stop()
+        private void Button_Click()
         {
-            Focusable = true;
-            if (ProcessEnd)
+            if (StartButtonText == "Start")
             {
-                utilities.CancleBGW();
+                TimeSpan currentTime = DateTime.Now.TimeOfDay;
+                if ((startTime.CompareTo(currentTime) < 0) && turnOfAtTime == true)
+                {
+                    startTime = new TimeSpan(24, 0, 0).Subtract(currentTime).Add(StartTime);
+                }
+                else if (turnOfAtTime == true)
+                {
+                    startTime = startTime.Subtract(currentTime);
+                }else if (ProcessEnd)
+                {
+                    utilities.WaitForProcessEnd(processName);
+                    startTime = new TimeSpan(0, 0, 0);
+                }
+                dispatcherTimer.Start();
+                StartButtonText = "Stop";
+                Focusable = false;
             }
-                timer.Stop();
-            CountDown = true;
-
+            else
+            {
+                Focusable = true;
+                dispatcherTimer.Stop();
+                if (processEnd)
+                {
+                    utilities.CancleBGW();
+                }
+                StartButtonText = "Start";
+                CountDown = true;
+            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChange(string propName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
-        }
-
-
+       
     }
 }
