@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -12,6 +7,7 @@ namespace TimeForShutDown
 {
     class MainWindowModel : INotifyPropertyChanged
     {
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChange(string propertyName)
@@ -127,14 +123,14 @@ namespace TimeForShutDown
             }
         }
 
-        public ICommand ButtonCommand { get; private set; }
+       public RelayCommand ButtonCommand { get; private set; }
         private DispatcherTimer dispatcherTimer;
         private Utilities utilities;
 
         public MainWindowModel()
         {
             Timer();
-            ButtonCommand = new RelayCommand(x => { this.Button_Click(); }, x => true);
+            ButtonCommand = new RelayCommand(Button_Click);
             utilities = new Utilities();
         }
 
@@ -157,12 +153,12 @@ namespace TimeForShutDown
             StartTime = StartTime + new TimeSpan(0, 0, tick);
             if (StartTime == new TimeSpan(0, 0, 0))
             {
-                CMD.Run("shutdown -s -t 0");
+                CMD.Run("shutdown -s -f -t 0");
                 dispatcherTimer.Stop();
             }
         }
 
-        private void Button_Click()
+        private void Button_Click(object sender)
         {
             if (StartButtonText == "Start")
             {

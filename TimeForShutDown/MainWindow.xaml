@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:TimeForShutDown"
         mc:Ignorable="d"
        
-        Title="TimeForShutDown" Height="254.371" Width="395.042" Icon="Ico\IcoShutDown.ico">
+        Title="TimeForShutDown" Height="207.827" MinHeight="240" MaxHeight="245" MinWidth="272" MaxWidth="800" Width="440.91" Icon="Ico\IcoShutDown.ico" >
     <Window.DataContext>
         <local:MainWindowModel/>
     </Window.DataContext>
-  
+
     <Grid Margin="0,0,2,0" Height="223" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="72"/>
@@ -19,8 +19,7 @@
         </Grid.RowDefinitions>
         <TextBox x:Name="tbTimerHH" BorderThickness="0" FontFamily="Bahnschrift Light" HorizontalAlignment="Center" FontSize="50" Height="62" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10,10,10,0" TextWrapping="Wrap" Focusable="{Binding Focusable,UpdateSourceTrigger=PropertyChanged}" Text="{Binding StartTime,StringFormat='{}{0:dd\\:hh\\:mm\\:ss}',Mode=TwoWay,UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center" Width="365" />
 
-        <Button Content="{Binding StartButtonText}" BorderThickness="0
-                " FontSize="25" FontFamily="Bahnschrift Light" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding ButtonCommand}" Margin="41,14,48,0" VerticalAlignment="Top" Height="33" Grid.Row="2">
+        <Button Content="{Binding StartButtonText}" BorderThickness="0" FontSize="25" FontFamily="Bahnschrift Light" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding ButtonCommand}" Margin="41,14,48,0" VerticalAlignment="Top" Height="33" Grid.Row="2">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.75,3" MappingMode="RelativeToBoundingBox" StartPoint="0.3,1.1">
                     <GradientStop Color="#FF17EAD9"/>

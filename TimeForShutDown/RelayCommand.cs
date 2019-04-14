@@ -1,37 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace TimeForShutDown
 {
     class RelayCommand : ICommand
     {
-        private Action<object> execute;
-        private Func<object, bool> canExecute;
+        readonly Action<object> _execute;
+        readonly Predicate<object> _canExecute;
+
+
+
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        {
+            if (execute == null)
+            {
+                throw new NullReferenceException("execute");
+            }
+
+            this._execute = execute;
+            this._canExecute = canExecute;
+        }
+
+
+        public RelayCommand(Action<object> execute) : this(execute, null)
+        {
+
+        }
 
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested +=value;}
+            add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
-        {
-            this.execute = execute;
-            this.canExecute = canExecute;
-        }
 
         public bool CanExecute(object parameter)
         {
-            return this.canExecute == null || this.canExecute(parameter);
+            if (_canExecute == null)
+            {
+                return true;
+            }
+            else
+            {
+                return _canExecute(parameter);
+            }
         }
 
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            _execute.Invoke(parameter);
         }
     }
 }
