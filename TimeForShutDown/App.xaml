@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:TimeForShutDown"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <Style x:Key="FontStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="FontFamily" Value="Bahnschrift Light"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
       
     </Application.Resources>
 </Application>

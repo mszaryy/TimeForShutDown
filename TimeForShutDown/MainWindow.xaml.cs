@@ -29,7 +29,7 @@ namespace TimeForShutDown
         public void InitHideIcon()
         {
             System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
-            notifyIcon.Icon = new System.Drawing.Icon(Directory.GetCurrentDirectory() + @"\shutdownIco.ico");
+            notifyIcon.Icon = new System.Drawing.Icon(Directory.GetCurrentDirectory() + @"\IcoShutDown.ico");
             notifyIcon.Visible = true;
             notifyIcon.DoubleClick += new EventHandler(NotifyIconn);
         }
