@@ -22,6 +22,7 @@ namespace TimeForShutDown
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
             processComboBox.ItemsSource = Utilities.GetProcessList();
             InitHideIcon();
         }
@@ -29,7 +30,7 @@ namespace TimeForShutDown
         public void InitHideIcon()
         {
             System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
-            notifyIcon.Icon = new System.Drawing.Icon(Directory.GetCurrentDirectory() + @"\IcoShutDown.ico");
+            notifyIcon.Icon = new System.Drawing.Icon(Directory.GetCurrentDirectory() + @"\Ico\IcoShutDown.ico");
             notifyIcon.Visible = true;
             notifyIcon.DoubleClick += new EventHandler(NotifyIconn);
         }

@@ -14,7 +14,6 @@ namespace TimeForShutDown
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             process.StartInfo.Arguments = "/c " + command;
             process.Start();
-
           //  MessageBox.Show("shutdown!");
         }
     }

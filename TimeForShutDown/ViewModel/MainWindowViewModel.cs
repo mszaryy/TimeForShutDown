@@ -5,9 +5,9 @@ using System.Windows.Threading;
 
 namespace TimeForShutDown
 {
-    class MainWindowModel : INotifyPropertyChanged
+    class MainWindowViewModel : INotifyPropertyChanged
     {
-       
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChange(string propertyName)
@@ -123,14 +123,14 @@ namespace TimeForShutDown
             }
         }
 
-       public RelayCommand ButtonCommand { get; private set; }
+        public RelayCommand ButtonCommand { get; private set; }
         private DispatcherTimer dispatcherTimer;
         private Utilities utilities;
 
-        public MainWindowModel()
+        public MainWindowViewModel()
         {
             Timer();
-            ButtonCommand = new RelayCommand(Button_Click);
+            ButtonCommand = new RelayCommand(StartButton_Click);
             utilities = new Utilities();
         }
 
@@ -141,7 +141,7 @@ namespace TimeForShutDown
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Tick += Tick;
-          }
+        }
 
         private void Tick(object sender, EventArgs e)
         {
@@ -158,7 +158,7 @@ namespace TimeForShutDown
             }
         }
 
-        private void Button_Click(object sender)
+        private void StartButton_Click(object sender)
         {
             if (StartButtonText == "Start")
             {
@@ -170,7 +170,8 @@ namespace TimeForShutDown
                 else if (turnOfAtTime == true)
                 {
                     startTime = startTime.Subtract(currentTime);
-                }else if (ProcessEnd)
+                }
+                else if (ProcessEnd)
                 {
                     utilities.WaitForProcessEnd(processName);
                     startTime = new TimeSpan(0, 0, 0);
@@ -192,6 +193,6 @@ namespace TimeForShutDown
             }
         }
 
-       
+
     }
 }

@@ -59,10 +59,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CMD.cs" />
-    <Compile Include="MainWindowModel.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Models\CMD.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\Utilities.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,7 +106,9 @@
     <Resource Include="shutdownIco.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Ico\IcoShutDown.ico" />
+    <Content Include="Ico\IcoShutDown.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="IcoShutDown.ico" />

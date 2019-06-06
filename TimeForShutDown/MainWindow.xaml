@@ -7,10 +7,6 @@
         mc:Ignorable="d"
        
         Title="TimeForShutDown" Height="207.827" MinHeight="240" MaxHeight="245" MinWidth="272" MaxWidth="800" Width="440.91" Icon="Ico\IcoShutDown.ico" >
-    <Window.DataContext>
-        <local:MainWindowModel/>
-    </Window.DataContext>
-
     <Grid Margin="0,0,2,0" Height="223" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="72"/>
